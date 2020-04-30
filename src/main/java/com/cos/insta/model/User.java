@@ -21,8 +21,6 @@ import lombok.Setter;
 
 @Data // 롬복
 @Entity // JPA의 엔티티로 쓰겠다
-@Setter
-@Getter
 public class User {
 	
 	@Id //id를 기본키로 쓰겠다.
