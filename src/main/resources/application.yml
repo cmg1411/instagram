@@ -16,6 +16,7 @@ spring:
     password: bitc5600
     
   jpa:
+    generate-ddl: true
     open-in-view: false
     hibernate:
       ddl-auto: create

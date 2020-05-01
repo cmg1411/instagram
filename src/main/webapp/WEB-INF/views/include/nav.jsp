@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <nav class="navigation">
-  <a href="feed.html">
+  <a href="feed.jsp">
     <img src="/images/logo.png" />
   </a>
   <input type="text" placeholder="Search">
