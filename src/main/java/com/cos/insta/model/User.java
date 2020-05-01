@@ -16,8 +16,6 @@ import org.hibernate.annotations.UpdateTimestamp;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 
 @Data // 롬복
 @Entity // JPA의 엔티티로 쓰겠다
