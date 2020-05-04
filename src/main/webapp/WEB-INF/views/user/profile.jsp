@@ -7,7 +7,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Profile | Jejugram</title>
+  <title>Profile | Instagram</title>
   <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
   <link rel="shortcut icon" href="/images/favicon.ico">
   <link rel="stylesheet" href="/css/styles.css">
@@ -15,23 +15,7 @@
 </head>
 
 <body>
-  <nav class="navigation">
-    <a href="feed.html">
-      <img src="/images/logo.png" />
-    </a>
-    <input type="text" placeholder="Search">
-    <div class="navigation__links">
-      <a href="explore.html" class="navigation__link">
-        <i class="fa fa-compass"></i>
-      </a>
-      <a href="#" class="navigation__link follow_popup">
-        <i class="fa fa-heart-o"></i>
-      </a>
-      <a href="profile.html" class="navigation__link">
-        <i class="fa fa-user-o"></i>
-      </a>
-    </div>
-  </nav>
+  <%@ include file="../include/nav.jsp" %>
   <main id="profile">
     <header class="profile__header">
       <div class="avatar__container">
@@ -43,8 +27,50 @@
       <div class="profile__info">
         <div class="profile__title">
           <h1>rlaalsrjf</h1>
+          
+          <div id="follow_check">
+          <c:choose>
+           <c:when test="${followCheck eq 1 }">
+            <button onClick=follow(false) class="profile_edit_btn">팔로잉</button>
+           </c:when>
+           <c:otherwise>
+            <button onClick=follow(true) class="profile_follow_btn">팔로우</button>
+           </c:otherwise>
+          </c:choose>
+          </div>
+          <script>
+          	function follow(check){
+          		//true => follow 찍기
+          		//false => unfollow 찍기
+          		let url = "/follow/${toUser.id}";
+          		if(check){
+          			fetch(url, {
+          				method:"POST"
+          			}).then(function(res){
+          				return res.text();
+          			}).then(function(res){
+          				if(res==="ok"){
+          					let follow_check_el=document.querySelector("#follow_check");
+          					follow_check_el.innerHTML="<button onClick=follow(false) class='profile_edit_btn'>팔로잉</button>";
+          				}
+          			});
+          		}else{
+          			fetch(url, {
+          				method:"DELETE"
+          			}).then(function(res){
+          				return res.text();
+          			}).then(function(res){
+          				if(res==="ok"){
+          					let follow_check_el=document.querySelector("#follow_check");
+          					follow_check_el.innerHTML="<button onClick=follow(true) class='profile_follow_btn'>팔로우</button>";
+          				}
+          			});
+          		}
+          	}
+          </script>
+          
           <a href="edit-profile.html">
-            <button>Edit Profile</button>
+            <button class="profile_edit_btn">Edit Profile</button>
           </a>
           <i class="fa fa-cog fa-lg"></i>
         </div>
@@ -195,7 +221,7 @@
       </div>
     </div>
   </main>
-  <%@ include file="../include/footer.jsp" %>
+  
   <div class="profile__overlay">
     <i class="fa fa-times"></i>
     <div class="profile__overlay-container">
@@ -207,6 +233,9 @@
     </div>
   </div>
 
+  <%@ include file="../include/footer.jsp" %>
+  <script src="/js/follow.js"></script>
+  
   <script>
       $(function() {
         //이미지 클릭시 업로드창 실행
