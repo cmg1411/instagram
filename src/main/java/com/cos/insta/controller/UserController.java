@@ -71,17 +71,24 @@ public class UserController {
 		
 		//4. 수정필요
 		Optional<User> oToUser = mUserRepository.findById(id);
-		User toUser = oToUser.get();
-		model.addAttribute("toUser", toUser);
+		User user = oToUser.get();
+		model.addAttribute("user", user);
 		
 		//5.
-		User user = userDetail.getUser();
+		User principal = userDetail.getUser();
 		
-		int followCheck = mFollowRepository.countByFromUserIdAndToUserId(user.getId(), id);
+		int followCheck = mFollowRepository.countByFromUserIdAndToUserId(principal.getId(), id);
 		log.info("followCheck : " + followCheck);
 		model.addAttribute("followCheck", followCheck);
 		
 		return "user/profile";
 	}
 	
+	@GetMapping("/user/edit/{id}")
+	public String userEdit(@PathVariable int id) {
+		//해당 ID로 Select해서 수정
+		//findByUserInfo()사용 (만들어야함.)
+		
+		return "user/profile_edit";
+	}
 }
