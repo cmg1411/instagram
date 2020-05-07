@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -56,20 +57,50 @@ public class FollowController {
 		
 		List<Follow> follows = mFollowRepository.findAll();
 		
-		return "ok";
+		return "ok"; //ResponseEntity로 수정
 	}
 	
 	@GetMapping("follow/follower/{id}")
-	public String followFollower(@PathVariable int id) {
+	public String followFollower(@PathVariable int id,
+								 @AuthenticationPrincipal MyUserDetails userDetail,
+								 Model model) {
 		
-		//팔로우리스트
-		return "follow/follow";
+		//팔로워리스트
+		List<Follow> followers = mFollowRepository.findByToUserId(id);
+		
+		List<Follow> principalFollowers = mFollowRepository.findByFromUserId(userDetail.getUser().getId());
+		
+		for(Follow f1:followers) {
+			for(Follow f2:principalFollowers) {
+				if(f1.getFromUser().getId()==f2.getToUser().getId()) {
+					f1.setFollowState(true);
+				}
+			}
+		}
+		
+		model.addAttribute("followers",followers);
+		return "follow/follower";
 	}
 	
 	@GetMapping("follow/follow/{id}")
-	public String followFollow(@PathVariable int id) {
+	public String followFollow(@PathVariable int id, 
+							   @AuthenticationPrincipal MyUserDetails userDetail,
+								Model model) {
 		
 		//팔로우리스트
+		List<Follow> follows = mFollowRepository.findByFromUserId(id);
+		
+		List<Follow> principalFollows = mFollowRepository.findByFromUserId(userDetail.getUser().getId());
+		
+		for(Follow f1:follows) {
+			for(Follow f2:principalFollows) {
+				if(f1.getToUser().getId()==f2.getToUser().getId()) {
+					f1.setFollowState(true);
+				}
+			}
+		}
+		
+		model.addAttribute("follows",follows);
 		return "follow/follow";
 	}
 	

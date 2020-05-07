@@ -25,22 +25,26 @@
       </div>
       <div class="profile__info">
         <div class="profile__title">
-          <h1>${user.username }</h1>
-          
+          <h1>${user.username}</h1>
           <div id="follow_check">
-          <c:choose>
-           <c:when test="${followCheck eq 1 }">
-            <button onClick="follow(false,${user.id})" class="profile_edit_btn">팔로잉</button>
-           </c:when>
-           <c:otherwise>
-            <button onClick="follow(true,${user.id})" class="profile_follow_btn">팔로우</button>
-           </c:otherwise>
-          </c:choose>
+          
+          	  <c:if test="${principal.user.id ne user.id }">
+	            <c:choose>        
+		           <c:when test="${followCheck eq 1 }">
+		            <button onClick="follow(false,${user.id})" class="profile_edit_btn">팔로잉</button>
+		           </c:when>
+		           <c:otherwise>
+		            <button onClick="follow(true,${user.id})" class="profile_follow_btn">팔로우</button>
+		           </c:otherwise>
+		         </c:choose>
+		     </c:if>
           </div>
-          <a href="/user/edit/${user.id}">
-            <button class="profile_edit_btn">Edit Profile</button>
-          </a>
-          <i class="fa fa-cog fa-lg"></i>
+          <c:if test="${principal.user.id eq user.id }">
+	          <a href="/user/edit/${principal.user.id}">
+	            <button class="profile_edit_btn">Edit Profile</button>
+	          </a>
+	          <i class="fa fa-cog fa-lg"></i>
+	       </c:if>
         </div>
         <ul class="profile__stats">
           <li class="profile__stat">
@@ -199,7 +203,7 @@
   </div>
 
   <%@ include file="../include/footer.jsp" %>
-  <script src="/js/follow.js"></script>
+  <script src="/js/profile.js"></script>
   
   <script>
       $(function() {

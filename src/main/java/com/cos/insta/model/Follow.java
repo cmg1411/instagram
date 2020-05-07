@@ -39,7 +39,10 @@ public class Follow {
 	private User toUser;
 	
 	@Transient
-	private Boolean matpal;
+	private Boolean fromUserMatpal;
+	
+	@Transient
+	private boolean followState;
 	
 	@CreationTimestamp
 	private Timestamp createDate;
