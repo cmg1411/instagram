@@ -44,4 +44,4 @@ spring:
       password: 1234   
       
 file:
-  path: C:/Users/MG/Documents/workspace-sts-3.9.10.RELEASE/insta/src/main/resources/upload/
+  path: C:/Users/MG/Documents/workspace-sts-3.9.10.RELEASE/insta/src/main/resources/static/upload/

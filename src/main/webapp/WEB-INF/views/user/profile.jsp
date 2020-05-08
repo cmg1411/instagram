@@ -40,6 +40,9 @@
 		     </c:if>
           </div>
           <c:if test="${principal.user.id eq user.id }">
+          	  <a>
+          	    <button class="profile_follow_btn">사진 업로드</button>
+          	  </a>
 	          <a href="/user/edit/${principal.user.id}">
 	            <button class="profile_edit_btn">Edit Profile</button>
 	          </a>
