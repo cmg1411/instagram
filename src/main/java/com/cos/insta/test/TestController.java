@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,12 +14,17 @@ import com.cos.insta.model.Follow;
 import com.cos.insta.model.Image;
 import com.cos.insta.model.Likes;
 import com.cos.insta.model.User;
+import com.cos.insta.repository.ImageRepository;
 import com.cos.insta.repository.UserRepository;
 
 @Controller
 public class TestController {
 
+	@Autowired
 	private UserRepository mUserRepository;
+	
+	@Autowired
+	private ImageRepository mImageRepository;
 	
 	@GetMapping("/test/user/{id}")
 	public @ResponseBody User testUser(@PathVariable int id) {
