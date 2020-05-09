@@ -7,7 +7,8 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.UUID;
 
-import org.slf4j.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -15,7 +16,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.cos.insta.model.Image;
@@ -40,6 +40,7 @@ public class ImageController {
 	
 	@Value("${file.path}")
 	private String fileRealPath;
+
 	
 	@GetMapping({"/","/image/feed"})
 	public String authFeed(@AuthenticationPrincipal MyUserDetails userDetail) {
@@ -53,7 +54,7 @@ public class ImageController {
 	}
 	
 	@PostMapping("/image/uploadProc")
-	public @ResponseBody Image imageUploadProc(
+	public String imageUploadProc(
 		@AuthenticationPrincipal MyUserDetails userDetail,
 		@RequestParam("file") MultipartFile file,
 		@RequestParam("caption") String caption,
@@ -63,7 +64,7 @@ public class ImageController {
 	) {
 		//이미지 업로드 수행
 		UUID uuid = UUID.randomUUID();
-		String uuidFilename = file.getOriginalFilename()+"_"+uuid;
+		String uuidFilename = uuid+"_"+file.getOriginalFilename();
 		
 		Path filePath = Paths.get(fileRealPath+uuidFilename);
 		
@@ -80,7 +81,9 @@ public class ImageController {
 		image.setLocation(location);
 		image.setCaption(caption);
 		image.setUser(principal);
-		image.setPostImage(filePath.toString());
+		image.setPostImage(uuidFilename);
+		
+		//<img src="/upload/파일명" />
 		
 		mImageRepository.save(image);
 		
@@ -92,10 +95,9 @@ public class ImageController {
 			t.setName(tag);
 			t.setImage(image);
 			mTagRepository.save(t);
+			image.getTags().add(t);
 		}
-		
-		
-		
-		return image;
+			
+		return "redirect:/";
 	}
 }

@@ -11,8 +11,10 @@ public class Utils {
 		
 		List<String> tagList = new ArrayList<String>();
 		
-		for(String tag : temp) {
-			tagList.add(tag);
+		int len = temp.length;
+		
+		for(int i = 1 ; i < len ; i++) {
+			tagList.add(temp[i]);
 		}
 		return tagList;
 	}
