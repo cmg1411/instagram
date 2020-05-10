@@ -8,7 +8,7 @@
 </sec:authorize>
     
 <nav class="navigation">
-  <a href="feed.jsp">
+  <a href="/">
     <img src="/images/logo.png" />
   </a>
   <input type="text" placeholder="Search">

@@ -44,4 +44,4 @@ spring:
       password: 1234   
       
 file:
-  path: C:/Users/MG/git/instagram/src/main/resources/static/upload/
+  path: C:/Users/MG/git/src/upload/
