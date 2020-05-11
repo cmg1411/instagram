@@ -25,9 +25,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.cos.insta.model.Image;
+import com.cos.insta.model.Likes;
 import com.cos.insta.model.Tag;
 import com.cos.insta.model.User;
 import com.cos.insta.repository.ImageRepository;
+import com.cos.insta.repository.LikesRepository;
 import com.cos.insta.repository.TagRepository;
 import com.cos.insta.service.MyUserDetails;
 
@@ -44,6 +46,11 @@ public class ImageController {
 	@Autowired
 	private TagRepository mTagRepository;
 	
+	@Autowired
+	private LikesRepository mLikesRepository;
+
+
+	
 	@Value("${file.path}")
 	private String fileRealPath;
 
@@ -57,6 +64,15 @@ public class ImageController {
 		Page<Image> pageImages = mImageRepository.findImage(userDetail.getUser().getId(), pageable);
 		
 		List<Image> images = pageImages.getContent();
+		
+		for(Image image : images) {
+			Likes like = mLikesRepository.findByUserIdAndImageId(userDetail.getUser().getId(), image.getId());
+			
+			if(like!=null) {
+				image.setHeart(true);
+			}
+		}
+		
 		model.addAttribute("images", images);
 		return "image/feed";
 	}
