@@ -38,10 +38,10 @@
 						<!-- 좋아요(하트)이미지 --> 
 						<c:choose>
 						  <c:when test="${image.heart eq true}">
-						    <i id="${image.id}" class="fa fa-heart heart heart-clicked"></i>
+						    <i onclick="onFeedLoad(${image.id})" id="${image.id}" class="fa fa-heart heart heart-clicked"></i>
 						  </c:when>
 						  <c:otherwise>
-						    <i id="${image.id}" class="fa fa-heart-o heart"></i>
+						    <i onclick="onFeedLoad(${image.id})" id="${image.id}" class="fa fa-heart-o heart"></i>
 						  </c:otherwise>
 						</c:choose>
 						

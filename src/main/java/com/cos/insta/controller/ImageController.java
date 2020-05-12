@@ -5,6 +5,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.slf4j.Logger;
@@ -19,6 +20,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -49,11 +51,36 @@ public class ImageController {
 	@Autowired
 	private LikesRepository mLikesRepository;
 
-
 	
 	@Value("${file.path}")
 	private String fileRealPath;
 
+	@PostMapping("/image/like/{id}")
+	public @ResponseBody String imageLike(@PathVariable int id,
+										  @AuthenticationPrincipal MyUserDetails userDetail) {
+		Likes oldLike = mLikesRepository.findByUserIdAndImageId(userDetail.getUser().getId(), id);
+		
+		Optional<Image> oImage = mImageRepository.findById(id);
+		Image image = oImage.get();
+		
+		try {
+			if(oldLike == null) { //좋아요 안했음.(추가하기)
+				Likes newLike = Likes.builder()
+								.image(image)
+						        .user(userDetail.getUser())
+						        .build();
+				
+				mLikesRepository.save(newLike);
+			}else { // 좋아요 한 상태.(삭제하기)
+				mLikesRepository.delete(oldLike);
+			}
+			return "ok";
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return "fail";
+	}
 	
 	@GetMapping({"/","/image/feed"})
 	public String authFeed(@AuthenticationPrincipal MyUserDetails userDetail,
