@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -38,6 +39,7 @@ public class User {
 	//(2)findByUserInfo() 제외
 	@OneToMany(mappedBy = "user")
 	@JsonIgnoreProperties({"user", "tags", "likes"})
+	@OrderBy("id desc")
 	private List<Image> images = new ArrayList<>();
 	
 	@CreationTimestamp //자동으로 현재 시간이 셋팅.

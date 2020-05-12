@@ -28,8 +28,8 @@
         <div class="profile__title">
           <h1>${user.username}</h1>
           
-          <c:if test="${followCheck eq 1}">
-          <div id="follow_check">
+          <c:if test="${principal.user.id ne user.id}">
+            <div id="follow_check">
           
 	            <c:choose>        
 		           <c:when test="${followCheck eq 1 }">
@@ -40,28 +40,29 @@
 		           </c:otherwise>
 		         </c:choose>
 
-          </div>
+            </div>
           </c:if>
           
           <c:if test="${principal.user.id eq user.id }">
           	  <a href="/image/upload">
           	    <button class="profile_follow_btn">게시글 업로드</button>
           	  </a>
-	          <a href="/user/edit/${principal.user.id}">
+	          <a href="/user/edit">
 	            <button class="profile_edit_btn">프로필 수정</button>
 	          </a>
 	          <i class="fa fa-cog fa-lg"></i>
 	       </c:if>
         </div>
+        
         <ul class="profile__stats">
           <li class="profile__stat">
-            <span class="profile__stat-number">313 </span>게시물
+            <span class="profile__stat-number">${imageCount}</span>게시물
           </li>
           <li class="profile__stat">
-            <span class="profile__stat-number">4,444 </span><a href="/follow/follower/${user.id}">팔로워</a>
+            <span class="profile__stat-number">${followerCount}</span><a href="/follow/follower/${user.id}">팔로워</a>
           </li>
           <li class="profile__stat">
-            <span class="profile__stat-number">44 </span><a href="/follow/follow/${user.id}">팔로우</a>
+            <span class="profile__stat-number">${followCount}</span><a href="/follow/follow/${user.id}">팔로우</a>
           </li>
         </ul>
         <p class="profile__bio">
@@ -71,15 +72,15 @@
         </p>
       </div>
     </header>
+    
     <div class="profile__photo-grid">
     
- 
+ 	  <c:forEach var="image" items="${user.images}">
         <div class="profile__photo">
-          <a href="image-detail.html">
-            <img src="/images/feedPhoto.jpg">
+          <a href="image-detail.html"><img src="/upload/${image.postImage}">
             <div class="profile__photo-overlay">
               <span class="profile__photo-stat">
-                <i class="fa fa-heart"></i> 504
+                <i class="fa fa-heart"></i> ${image.likeCount}
               </span>
               <span class="profile__photo-stat">
                 <i class="fa fa-comment"></i> 22
@@ -87,32 +88,8 @@
             </div>
           </a>
         </div>
-        <div class="profile__photo">
-          <a href="image-detail.html">
-            <img src="/images/feedPhoto.jpg">
-            <div class="profile__photo-overlay">
-              <span class="profile__photo-stat">
-                <i class="fa fa-heart"></i> 504
-              </span>
-              <span class="profile__photo-stat">
-                <i class="fa fa-comment"></i> 22
-              </span>
-            </div>
-          </a>
-        </div>
-        <div class="profile__photo">
-          <a href="image-detail.html">
-            <img src="/images/feedPhoto.jpg">
-            <div class="profile__photo-overlay">
-              <span class="profile__photo-stat">
-                <i class="fa fa-heart"></i> 504
-              </span>
-              <span class="profile__photo-stat">
-                <i class="fa fa-comment"></i> 22
-              </span>
-            </div>
-          </a>
-        </div>
+       </c:forEach>
+        
       
       </div>
   </main>

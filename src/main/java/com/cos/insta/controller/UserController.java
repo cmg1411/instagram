@@ -18,11 +18,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.cos.insta.model.Image;
 import com.cos.insta.model.User;
 import com.cos.insta.repository.FollowRepository;
+import com.cos.insta.repository.LikesRepository;
 import com.cos.insta.repository.UserRepository;
 import com.cos.insta.service.MyUserDetails;
 
@@ -39,6 +42,9 @@ public class UserController {
 	
 	@Autowired
 	private FollowRepository mFollowRepository;
+	
+	@Autowired
+	private LikesRepository mLikesRepository; 
 	
 	@Value("${file.path}")
 	private String fileRealPath;
@@ -80,10 +86,28 @@ public class UserController {
 		 * 5. followCheck 팔로우 유무(1이면 팔로우 1아니면 언팔)
 		 */
 		
-		//4. 수정필요
 		Optional<User> oToUser = mUserRepository.findById(id);
 		User user = oToUser.get();
-		model.addAttribute("user", user);
+		
+		//1.
+		int imageCount = user.getImages().size();
+		model.addAttribute("imageCount",imageCount);
+		
+		//2.
+		int followCount = mFollowRepository.countByFromUserId(user.getId());
+		model.addAttribute("followCount", followCount);
+		
+		//3.
+		int followerCount = mFollowRepository.countByToUserId(user.getId());
+		model.addAttribute("followerCount", followerCount);
+		
+		//4.likeCount
+		for(Image item : user.getImages()) {
+			int likeCount = mLikesRepository.countByImageId(item.getId());
+			item.setLikeCount(likeCount);
+		}
+		
+		model.addAttribute("user",user);
 		
 		//5.
 		User principal = userDetail.getUser();
@@ -95,31 +119,66 @@ public class UserController {
 		return "user/profile";
 	}
 	
-	@GetMapping("/user/edit/{id}")
-	public String userEdit(@PathVariable int id) {
-		//해당 ID로 Select해서 수정
-		//findByUserInfo()사용 (만들어야함.)
+	
+	//프로필수정
+	
+	@PostMapping("/user/profileUpload")
+	public String userProfileUpload(@RequestParam("profileImage") MultipartFile file,
+									@AuthenticationPrincipal MyUserDetails userDetail) throws IOException{
+		User principal = userDetail.getUser();
+		
+		//파일처리
+		UUID uuid = UUID.randomUUID();
+		String uuidFilename = uuid + "_" + file.getOriginalFilename();
+		Path filePath = Paths.get(fileRealPath+uuidFilename);
+		Files.write(filePath, file.getBytes());
+		
+		//영속화
+		Optional<User> oUser = mUserRepository.findById(principal.getId());
+		User user = oUser.get();
+		
+		//값 변경
+		user.setProfileImage(uuidFilename);
+		
+		//다시 영속화 및 저장
+		mUserRepository.save(user);
+		return "redirect:/user/"+principal.getId();
+		
+	}
+	
+	@GetMapping("/user/edit")
+	public String userEdit(@AuthenticationPrincipal MyUserDetails userDetail, 
+						   Model model) {
+		
+		Optional<User> oUser = mUserRepository.findById(userDetail.getUser().getId());
+		User user = oUser.get();
+		model.addAttribute("user",user);
 		
 		return "user/profile_edit";
 	}
 	
-	@PostMapping("/user/profileUpload")
-	public String userProfileUpload
-	(
-			@RequestParam("profileImage") MultipartFile file,
-			@AuthenticationPrincipal MyUserDetails userDetail
-	) throws IOException
-	{
-		User principal = userDetail.getUser();
-
-		UUID uuid = UUID.randomUUID();
-		String uuidFilename = uuid + "_" + file.getOriginalFilename();
-		Path filePath = Paths.get(fileRealPath + uuidFilename);
-		Files.write(filePath, file.getBytes());
+	//@PutMapping("/user/editProc") 왜안대는지 모르겠음
+	@GetMapping("/user/editProc")
+	public String userEditProc(
+			User requestUser,
+			@AuthenticationPrincipal MyUserDetails userDetail) {
 		
-		principal.setProfileImage(uuidFilename);
+		// 영속화
+		Optional<User> oUser = mUserRepository.findById(userDetail.getUser().getId());
+		User user = oUser.get();
 		
-		mUserRepository.save(principal);
-		return "redirect:/user/"+principal.getId();
+		// 값 변경
+		user.setName(requestUser.getName());
+		user.setUsername(requestUser.getUsername());
+		user.setWebsite(requestUser.getWebsite());
+		user.setBio(requestUser.getBio());
+		user.setEmail(requestUser.getEmail());
+		user.setPhone(requestUser.getPhone());
+		user.setGender(requestUser.getGender());
+		
+		// 다시 영속화 및 flush
+		mUserRepository.save(user);
+		
+		return "redirect:/user/"+userDetail.getUser().getId();
 	}
 }
