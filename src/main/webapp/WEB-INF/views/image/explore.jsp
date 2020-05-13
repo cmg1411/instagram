@@ -19,9 +19,8 @@
 
   <main id="profile">
     <div class="profile__photo-grid">
-      <div class="profile__photo-row">
-        
-        <c:forEach var="image" items="${images}">
+      <c:forEach var="image" items="${images}">
+        <div class="profile__photo-row">
 			<div class="profile__photo">
 				<a href="/user/${image.user.id}"> <img src="/upload/${image.postImage}">	
 					<div class="profile__photo-overlay">
@@ -29,10 +28,10 @@
 						<span class="profile__photo-stat"> <i class="fa fa-comment"></i> 22</span>
 					</div>
 				</a>
-			</div>									
-		</c:forEach>
+			</div>
+		</div>										
+	 </c:forEach>
         
-      </div>
     </div>
   </main>
   <%@ include file="../include/footer.jsp" %>

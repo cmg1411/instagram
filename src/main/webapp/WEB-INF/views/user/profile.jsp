@@ -79,12 +79,8 @@
         <div class="profile__photo">
           <a href="image-detail.html"><img src="/upload/${image.postImage}">
             <div class="profile__photo-overlay">
-              <span class="profile__photo-stat">
-                <i class="fa fa-heart"></i> ${image.likeCount}
-              </span>
-              <span class="profile__photo-stat">
-                <i class="fa fa-comment"></i> 22
-              </span>
+              <span class="profile__photo-stat"><i class="fa fa-heart"></i> ${image.likeCount}</span>
+              <span class="profile__photo-stat"><i class="fa fa-comment"></i> 22</span>
             </div>
           </a>
         </div>
@@ -98,7 +94,7 @@
     <i class="fa fa-times"></i>
     <div class="profile__overlay-container">
       <a href="#" class="profile__overlay-link">Change password</a>
-      <a href="#" class="profile__overlay-link" id="logout">Log Out</a>
+      <a href="/logout" class="profile__overlay-link" id="logout">Log Out</a>
       <a href="#" class="profile__overlay-link" id="cancel">Cancel</a>
     </div>
   </div>
