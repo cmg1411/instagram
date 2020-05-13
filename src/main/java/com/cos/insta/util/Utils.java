@@ -1,4 +1,4 @@
-package cos.com.insta.util;
+package com.cos.insta.util;
 
 import java.util.ArrayList;
 import java.util.List;

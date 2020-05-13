@@ -15,7 +15,7 @@ async function load_like_notification(){
 	
 	likesList.forEach(function(likes){
 		let like_box = make_like_box(likes);
-		$("#modal > #like_popup_list > .like_popup_items").append(like_box);
+		$("#modal .like_popup_items").append(like_box);
 	});
 	
 	$("#modal").addClass("active");

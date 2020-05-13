@@ -34,8 +34,7 @@ import com.cos.insta.repository.ImageRepository;
 import com.cos.insta.repository.LikesRepository;
 import com.cos.insta.repository.TagRepository;
 import com.cos.insta.service.MyUserDetails;
-
-import cos.com.insta.util.Utils;
+import com.cos.insta.util.Utils;
 
 @Controller
 public class ImageController {

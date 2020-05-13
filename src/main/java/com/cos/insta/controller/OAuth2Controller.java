@@ -2,6 +2,8 @@ package com.cos.insta.controller;
 
 import javax.servlet.http.HttpSession;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -29,8 +31,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @Controller
 public class OAuth2Controller {
 
-	private String clientId = "	58ece7cdb74fcfbe2c14a426d5f32be1";
-	private String redirectUri = "http://localhost:8080/oauth/kakao/callback";
+	private String clientId = "58ece7cdb74fcfbe2c14a426d5f32be1";
+	private String redirectUri = "http://localhost:8080/auth/kakao/callback";
 	
 	@Autowired
 	private UserRepository mUserRepository;
@@ -54,8 +56,7 @@ public class OAuth2Controller {
 	@PostMapping("/auth/kakao/joinProc")
 	public String kakaoJoinProc(User user, HttpSession session) {
 		// name, email, provider, providerId
-		String providerId = 
-				(String) session.getAttribute("providerId");
+		String providerId = (String) session.getAttribute("providerId");
 		
 		user.setProvider("kakao");
 		user.setProviderId(providerId);
@@ -96,10 +97,9 @@ public class OAuth2Controller {
 		parameters.add("redirect_uri", redirectUri);
 		parameters.add("code",code);
 		 
-		HttpEntity<MultiValueMap<String, String>> request = 
-				new HttpEntity<>(parameters, headers);
+		HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(parameters, headers);
 
-		ResponseEntity response = rt.exchange(
+		ResponseEntity<String> response = rt.exchange(
 				"https://kauth.kakao.com/oauth/token", 
 				HttpMethod.POST, 
 				request, 
@@ -121,14 +121,12 @@ public class OAuth2Controller {
 		// 회원 프로필 조회 끝 (인증)
 		RestTemplate rt2 = new RestTemplate();
 		
-		HttpHeaders headers2 = new HttpHeaders();
 		headers.add("Authorization", "Bearer "+oToken.getAccess_token()); //전부다 String형일 때. RestTemplate 때문에 생략가능
 		headers.add("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8"); //전부다 String형일 때. RestTemplate 때문에 생략가능
 
-		HttpEntity request2 = 
-				new HttpEntity(headers);
+		HttpEntity request2 = new HttpEntity(headers);
 
-		ResponseEntity response2 = rt2.exchange(
+		ResponseEntity<String> response2 = rt2.exchange(
 				"https://kapi.kakao.com/v2/user/me", 
 				HttpMethod.POST, 
 				request2, 
@@ -138,11 +136,7 @@ public class OAuth2Controller {
 		ObjectMapper objectMapper2 = new ObjectMapper();
 		KakaoProfile kakaoProfile = null;
 		try {
-			kakaoProfile = 
-					objectMapper2
-					.readValue(
-							response2.getBody().toString(), 
-							KakaoProfile.class);
+			kakaoProfile = objectMapper2.readValue(response2.getBody().toString(), KakaoProfile.class);
 		} catch (Exception e) {
 			e.printStackTrace();
 		} 
@@ -150,9 +144,7 @@ public class OAuth2Controller {
 		System.out.println(kakaoProfile.getId());
 		
 		// 가입자, 비가입자 확인 처리
-		User user = 
-				mUserRepository
-				.findByProviderAndProviderId("kakao", kakaoProfile.getId());
+		User user = mUserRepository.findByProviderAndProviderId("kakao", kakaoProfile.getId());
 		
 		if(user == null) {
 			System.out.println("미 가입자 입니다.");
