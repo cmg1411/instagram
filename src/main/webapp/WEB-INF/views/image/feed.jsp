@@ -45,10 +45,11 @@
 						  </c:otherwise>
 						</c:choose>
 						
-						</span> <span class="photo__action"> <i class="fa fa-comment-o"></i>
-						</span>
+						</span> 
+						<span class="photo__action"> <i class="fa fa-comment-o"></i></span>
 					</div>
-					<span class="photo__likes">5,103 likes</span>
+					<span class="photo__likes" id="photo_likes_count_${image.id}">${image.likeCount}</span>
+					<span class="photo__likes"> likes</span>
 					<div class="photo_caption">
 						<span class="photo__username">
 							${image.user.username}

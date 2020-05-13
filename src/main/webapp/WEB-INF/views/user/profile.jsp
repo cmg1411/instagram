@@ -98,8 +98,6 @@
     <i class="fa fa-times"></i>
     <div class="profile__overlay-container">
       <a href="#" class="profile__overlay-link">Change password</a>
-      <a href="#" class="profile__overlay-link">Authorize Apps</a>
-      <a href="#" class="profile__overlay-link">Notifications</a>
       <a href="#" class="profile__overlay-link" id="logout">Log Out</a>
       <a href="#" class="profile__overlay-link" id="cancel">Cancel</a>
     </div>

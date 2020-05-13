@@ -14,10 +14,16 @@
 
 async function onFeedLoad(imageId){
 	let msg = await like(imageId);
-	if(msg === "ok"){
-	  $("#"+imageId).toggleClass("heart-clicked fa-heart fa-heart-o");
+	let likeCount = $("#photo_likes_count_"+imageId).text();
+
+	if(msg === "like"){
+		$("#photo_likes_count_"+imageId).text(Number(likeCount)+1);
+		$("#"+imageId).toggleClass("heart-clicked fa-heart fa-heart-o");	
+	}else if(msg === "unlike"){
+		$("#photo_likes_count_"+imageId).text(Number(likeCount)-1);
+		$("#"+imageId).toggleClass("heart-clicked fa-heart fa-heart-o");	
 	}else{
-		alert('오류');
+		alert(msg);
 	}
 }
 
