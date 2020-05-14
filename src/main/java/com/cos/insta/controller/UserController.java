@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -184,22 +185,30 @@ public class UserController {
 	}
 	
 	@PostMapping("/user/passProc")
-	public @ResponseBody String userChangeProc(String pass,
+	public String userChangeProc(String pass, String npass1, String npass2,
 						   @AuthenticationPrincipal MyUserDetails userDetail) {
 		
 		System.out.println(pass);
-		
-		String 
+		System.out.println(npass1);
+		System.out.println(npass2);
 		
 		Optional<User> oUser = mUserRepository.findById(userDetail.getUser().getId());
 		User user = oUser.get();
 		
-		return encodedpass;
+		if(encoder.matches(pass, user.getPassword()) && npass1.contentEquals(npass2)) {
+			String encoded = encoder.encode(npass1);
+			user.setPassword(encoded);
+			mUserRepository.save(user);
+			
+			return "redirect:/logout";
+		}
+		else
+			return "redirect:/user/pass";
 	}
 	
 	@GetMapping("/user/pass")
 	public String userChangePass(@AuthenticationPrincipal MyUserDetails userDetail, 
-						   Model model) {
+			   Model model) {
 		
 		Optional<User> oUser = mUserRepository.findById(userDetail.getUser().getId());
 		User user = oUser.get();

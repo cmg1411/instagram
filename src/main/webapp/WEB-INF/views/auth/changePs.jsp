@@ -29,12 +29,12 @@
 												<!-- method="PUT" 왜안대는지 모르겠음 -->
        <form:form action="/user/passProc" method="POST" class="edit-profile__form">
         <div class="edit-profile__row">
-          <label class="edit-profile__label" for="opass">이전 비밀번호</label>
-          <input id="opass" name="opass" type="password">
+          <label class="edit-profile__label" for="pass">이전 비밀번호</label>
+          <input id="pass" name="pass" type="password">
         </div>
         <div class="edit-profile__row">
           <label class="edit-profile__label" for="npass1">새 비밀번호</label>
-          <input id="npass1" name="pass" type="password">
+          <input id="npass1" name="npass1" type="password">
         </div>
         <div class="edit-profile__row">
           <label class="edit-profile__label" for="npass1">새 비밀번호 확인</label>
@@ -42,7 +42,9 @@
         </div>
         <div class="edit-profile__row">
           <span></span>
-          <input style="background-color:#3897F0;" type="submit" value="비밀번호 변경">
+          <input style="background-color:#3897F0;" id="submit" type="submit" value="비밀번호 변경">
+          <span></span>
+          <h1>비밀번호를 바꾸면 로그아웃 됩니다. 다시 로그인해주세요.</h1>
         </div>
       </form:form>
 
@@ -50,27 +52,6 @@
   </main>
 
   <%@ include file="../include/footer.jsp" %>
-  <script>
-    function to_ajax(){
-  
- 
-        var queryString = $("#pass").val() ;
- 
-        $.ajax({
-            type : 'post',
-            url : '/user/passProc',
-            data : queryString,
-            dataType : 'String',
-            error: function(xhr, status, error){
-                alert(error);
-            }
-            success : function(json){
-                alert(json)
-            },
-        });
-  
-    }
-</script>
 
 </body>
 </html>
