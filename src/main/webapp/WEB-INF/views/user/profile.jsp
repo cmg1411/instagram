@@ -93,7 +93,7 @@
   <div class="profile__overlay">
     <i class="fa fa-times"></i>
     <div class="profile__overlay-container">
-      <a href="#" class="profile__overlay-link">Change password</a>
+      <a href="/user/pass" class="profile__overlay-link">Change password</a>
       <a href="/logout" class="profile__overlay-link" id="logout">Log Out</a>
       <a href="#" class="profile__overlay-link" id="cancel">Cancel</a>
     </div>

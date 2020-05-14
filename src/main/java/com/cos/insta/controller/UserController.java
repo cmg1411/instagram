@@ -181,4 +181,28 @@ public class UserController {
 		
 		return "redirect:/user/"+userDetail.getUser().getId();
 	}
+	
+	@PostMapping("/user/passProc")
+	public void userChangeProc(String pass,
+						   @AuthenticationPrincipal MyUserDetails userDetail) {
+		
+		System.out.println(pass);
+		
+		Optional<User> oUser = mUserRepository.findById(userDetail.getUser().getId());
+		User user = oUser.get();
+	}
+	
+	@GetMapping("/user/pass")
+	public String userChangePass(@AuthenticationPrincipal MyUserDetails userDetail, 
+						   Model model) {
+		
+		Optional<User> oUser = mUserRepository.findById(userDetail.getUser().getId());
+		User user = oUser.get();
+		
+		model.addAttribute("user",user);
+		
+		return "auth/changePs";
+	}
+	
+	
 }
