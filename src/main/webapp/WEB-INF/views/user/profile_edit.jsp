@@ -29,11 +29,11 @@
 												<!-- method="PUT" 왜안대는지 모르겠음 -->
        <form:form action="/user/editProc" method="GET" class="edit-profile__form">
         <div class="edit-profile__row">
-          <label class="edit-profile__label" for="name">Name</label>
+          <label class="edit-profile__label" for="name">이름</label>
           <input id="name" name="name" type="text" value="${user.name}">
         </div>
         <div class="edit-profile__row">
-          <label class="edit-profile__label" for="username">Username</label>
+          <label class="edit-profile__label" for="username">아이디</label>
           <input id="username" name="username" type="text" value="${user.username}">
         </div>
         <div class="edit-profile__row">
@@ -41,24 +41,24 @@
           <input id="website" name="website" type="url" value="${user.website }">
         </div>
         <div class="edit-profile__row">
-          <label class="edit-profile__label" for="bio">bio</label>
+          <label class="edit-profile__label" for="bio">자기소개</label>
           <textarea id="bio" name="bio">${user.bio}</textarea>
         </div>
         <div class="edit-profile__row">
-          <label class="edit-profile__label" for="email">Email</label>
+          <label class="edit-profile__label" for="email">이메일</label>
           <input id="email" name="email" type="email" value="${user.email }">
         </div>
         <div class="edit-profile__row">
-          <label class="edit-profile__label" for="phone-number">Phone Number</label>
+          <label class="edit-profile__label" for="phone-number">전화번호</label>
           <input id="phone-number" name="phone" type="text"  value="${user.phone }">
         </div>
         <div class="edit-profile__row">
-          <label class="edit-profile__label" for="gender">Gender</label>
+          <label class="edit-profile__label" for="gender">성별</label>
           <input id="gender" name="gender" type="text" value="${user.gender}">
         </div>
         <div class="edit-profile__row">
           <span></span>
-          <input style="background-color:#3897F0;" type="submit">
+          <input style="background-color:#3897F0;" type="submit" value="프로필 변경!">
         </div>
       </form:form>
 

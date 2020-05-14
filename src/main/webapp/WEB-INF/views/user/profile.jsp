@@ -93,9 +93,9 @@
   <div class="profile__overlay">
     <i class="fa fa-times"></i>
     <div class="profile__overlay-container">
-      <a href="/user/pass" class="profile__overlay-link">Change password</a>
-      <a href="/logout" class="profile__overlay-link" id="logout">Log Out</a>
-      <a href="#" class="profile__overlay-link" id="cancel">Cancel</a>
+      <a href="/user/pass" class="profile__overlay-link">비밀번호 변경</a>
+      <a href="/logout" class="profile__overlay-link" id="logout">로그아웃</a>
+      <a href="#" class="profile__overlay-link" id="cancel">취소</a>
     </div>
   </div>
 
