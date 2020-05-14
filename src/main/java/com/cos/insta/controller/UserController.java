@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.cos.insta.model.Image;
@@ -183,13 +184,17 @@ public class UserController {
 	}
 	
 	@PostMapping("/user/passProc")
-	public void userChangeProc(String pass,
+	public @ResponseBody String userChangeProc(String pass,
 						   @AuthenticationPrincipal MyUserDetails userDetail) {
 		
 		System.out.println(pass);
 		
+		String 
+		
 		Optional<User> oUser = mUserRepository.findById(userDetail.getUser().getId());
 		User user = oUser.get();
+		
+		return encodedpass;
 	}
 	
 	@GetMapping("/user/pass")
