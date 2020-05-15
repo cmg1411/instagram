@@ -12,7 +12,7 @@
     <img src="/images/logo.png" />
   </a>
   
-  <form action="">
+  <form action="/user/find">
   	<input type="search" id="search" name="search" placeholder="Search">
   	<button type="submit" hidden="hidden"></button>
   </form>

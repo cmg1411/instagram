@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -188,9 +190,7 @@ public class UserController {
 	public String userChangeProc(String pass, String npass1, String npass2,
 						   @AuthenticationPrincipal MyUserDetails userDetail) {
 		
-		System.out.println(pass);
-		System.out.println(npass1);
-		System.out.println(npass2);
+
 		
 		Optional<User> oUser = mUserRepository.findById(userDetail.getUser().getId());
 		User user = oUser.get();
@@ -218,5 +218,13 @@ public class UserController {
 		return "auth/changePs";
 	}
 	
-	
+	@GetMapping("/user/find")
+	public String userFind(String search, Model model) {
+		
+		List<User> userList = mUserRepository.findByUsernameContaining(search);
+
+		model.addAttribute("userList", userList);
+		
+		return "user/findPeople";
+	}
 }
