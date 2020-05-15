@@ -11,7 +11,12 @@
   <a href="/">
     <img src="/images/logo.png" />
   </a>
-  <input type="text" placeholder="Search">
+  
+  <form action="">
+  	<input type="search" id="search" name="search" placeholder="Search">
+  	<button type="submit" hidden="hidden"></button>
+  </form>
+  
   <div class="navigation__links">
     <a href="/image/explore" class="navigation__link">
         <i class="fa fa-compass"></i>
