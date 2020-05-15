@@ -37,14 +37,17 @@ function make_feed_box(image){
 	});
 	
 	feed_box +=`</div>`;
-	feed_box += `<ul class="photo__comments"><li class="photo__comment">`;
-	feed_box += `<span class="photo__comment-author">serranoarevalo</span>`;
-	feed_box += `i love this!</li><li class="photo__comment">`;
-	feed_box += `<span class="photo__comment-author">serranoarevalo</span>`;
-	feed_box += `i don't love this!</li></ul><span class="photo__date">${image.createDate}</span>`;
+	feed_box +=`<div id="comment_form_${image.id}"><ul>`;
+	
+	image.comments.forEach(function(comment){
+		feed_box += `<li>${comment.fromUser.username} ${comment.apply}<li>`;
+	});
+	
+	feed_box += `</div></ul><span class="photo__date">${image.createDate}</span>`;
 	feed_box += `<div class="photo__add-comment-container">`;
-	feed_box += `<textarea placeholder="Add a comment..."></textarea>`;
-    feed_box += `<i class="fa fa-ellipsis-h"></i></div></div></div >`;
+    feed_box += `<textarea class="comment_contents_${image.id}" placeholder="댓글 달기.."></textarea>`;
+    feed_box += `<button onclick="send_comment(${image.id})" class="comment__button qqq" type="submit">게시</button>`;
+    feed_box += `</div >`;
     
     return feed_box;
 }

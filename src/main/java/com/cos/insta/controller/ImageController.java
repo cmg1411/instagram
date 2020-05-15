@@ -22,14 +22,18 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.cos.insta.model.Comment;
 import com.cos.insta.model.Image;
 import com.cos.insta.model.Likes;
 import com.cos.insta.model.Tag;
 import com.cos.insta.model.User;
+import com.cos.insta.model.commentMsg;
+import com.cos.insta.repository.CommentRepository;
 import com.cos.insta.repository.ImageRepository;
 import com.cos.insta.repository.LikesRepository;
 import com.cos.insta.repository.TagRepository;
@@ -50,6 +54,8 @@ public class ImageController {
 	@Autowired
 	private LikesRepository mLikesRepository;
 
+	@Autowired
+	private CommentRepository mCommentRepository;
 	
 	@Value("${file.path}")
 	private String fileRealPath;
@@ -191,5 +197,25 @@ public class ImageController {
 		}
 			
 		return "redirect:/";
+	}
+	
+	@PostMapping("/image/commentProc")
+	public @ResponseBody String commentProc(@AuthenticationPrincipal MyUserDetails userDetail,
+											@RequestBody commentMsg comm) {
+			System.out.println(comm.getMsg());
+			System.out.println(comm.getId());
+
+			Optional<Image> img = mImageRepository.findById(comm.getId());
+			Image img1 = img.get();
+			
+			Comment com = new Comment();
+			
+			com.setApply(comm.getMsg());
+			com.setImage(img1);
+			com.setFromUser(userDetail.getUser());
+			
+			mCommentRepository.save(com);
+			
+		return userDetail.getUsername();
 	}
 }

@@ -14,6 +14,7 @@
 </head>
 <body>
 
+
 <%@ include file="../include/nav.jsp" %>
 
   <main id="feed">
@@ -61,17 +62,21 @@
 							#${tag.name}  
 						</c:forEach>
 					</div>
-					<ul class="photo__comments">
-						<li class="photo__comment"><span class="photo__comment-author">serranoarevalo</span> i
-							love this!</li>
-						<li class="photo__comment"><span class="photo__comment-author">serranoarevalo</span> i
-							don't love this!</li>
-					</ul>
+					
+					<div id="comment_form_${image.id}">
+						<ul class="photo__comments">
+							<c:forEach var="comment" items="${image.comments}">
+							 <li>${comment.fromUser.username} ${comment.apply}<li>  
+							</c:forEach>
+						</ul>
+					</div>
+					
+					
 					<span class="photo__date">${image.createDate}</span>
 					<div class="photo__add-comment-container">
-						<textarea placeholder="Add a comment..."></textarea>
-						<i class="fa fa-ellipsis-h"></i>
-					</div>
+						<textarea class="comment_contents_${image.id}" placeholder="댓글 달기.."></textarea>
+						<button onclick="send_comment(${image.id})" class="comment__button qqq">게시</button>
+				   	</div>
 				</div>
 			</div>
 
@@ -83,5 +88,6 @@
 <%@ include file="../include/footer.jsp" %>
 <script src="/js/feed.js"></script>
 <script src="/js/like.js"></script>
+<script src="/js/comment.js"></script>
 </body>
 </html>

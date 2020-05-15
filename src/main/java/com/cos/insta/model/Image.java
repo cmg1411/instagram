@@ -46,6 +46,11 @@ public class Image {
 	@JsonManagedReference
 	private List<Tag> tags = new ArrayList<>();
 	
+	// comment List
+	@OneToMany(mappedBy="image")
+	@JsonManagedReference
+	private List<Comment> comments = new ArrayList<>();
+	
 	// (2) Like List
 	@OneToMany(mappedBy="image")
 	private List<Likes> likes = new ArrayList<>();
